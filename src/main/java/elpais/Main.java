@@ -29,9 +29,12 @@ public class Main {
         for (int i = 0; i < 5; i++) {
             Article article = opinionScraper.scrapeArticleData(allArticleLinks.get(i));
             topFiveArticles.add(article);
+
+            logger.info(article.getTitle());
+            logger.info(article.getContent());
         }
 
-
+        driver.quit();
     }
 
 }

@@ -59,15 +59,20 @@ public class OpinionScraper {
 
     public Article scrapeArticleData(String link) {
         Article article = new Article();
-        // go to page
+        driver.get(link);
 
-        // fetch ticlet and call article.setTitle
+        By title = By.xpath("//article//h1");
+        WebElement pageTitle = wait.until(ExpectedConditions.elementToBeClickable(title));
+        article.setTitle(pageTitle.getText());
 
-        // fetch content and call article.setContent
 
+        By content = By.xpath("//article/div[2]");
+        WebElement pageContent = wait.until(ExpectedConditions.elementToBeClickable(content));
+        article.setContent(pageContent.getText());
 
-        // fetch imageLink and call article.setLink
-
+        By image = By.xpath("//article/header//span//img");
+        WebElement imageLink = wait.until(ExpectedConditions.elementToBeClickable(image));
+        article.setImageUrl(imageLink.getAttribute("src"));
 
         return article;
     }
