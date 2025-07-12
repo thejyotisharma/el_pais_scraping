@@ -50,7 +50,9 @@ public class ElPaisTest {
         OpinionScraper scraper = new OpinionScraper(driver);
         scraper.openElPaisWebsite();
         scraper.acceptCookies();
-//        assert "ESPAÑA".equals(scraper.getSelectedLanguage()) : "Language is not Spanish";
+        scraper.clickHamburgerButton();
+        assert "ESPAÑA".equals(scraper.getSelectedLanguage()) : "Language is not Spanish";
+        scraper.clickHamburgerCloseButton();
 
         logger.info("Step 2: Scrape Opinion Articles");
         scraper.visitOpinionPage();

@@ -37,15 +37,21 @@ public class OpinionScraper {
     }
 
     public String getSelectedLanguage() {
-        By locator = By.xpath("//header//div/ul/li[1]");
-        WebElement selectedLaguage = wait.until(ExpectedConditions.elementToBeClickable(locator));
+        By locator = By.xpath("//footer//div/ul/li[@class='ed_c']");
+        WebElement selectedLaguage = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         return selectedLaguage.getText();
     }
 
     public void acceptCookies() {
-        By locator = By.id("didomi-notice-agree-button");
-        WebElement cookieButton = wait.until(ExpectedConditions.elementToBeClickable(locator));
-        cookieButton.click();
+        clickButton("didomi-notice-agree-button");
+    }
+
+    public void clickHamburgerButton() {
+        clickButton("btn_open_hamburger");
+    }
+
+    public void clickHamburgerCloseButton() {
+        clickButton("btn_toggle_hamburger");
     }
 
     public void visitOpinionPage() {
@@ -100,5 +106,11 @@ public class OpinionScraper {
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
+    }
+
+    private void clickButton(String id) {
+        By locator = By.id(id);
+        WebElement cookieButton = wait.until(ExpectedConditions.elementToBeClickable(locator));
+        cookieButton.click();
     }
 }
