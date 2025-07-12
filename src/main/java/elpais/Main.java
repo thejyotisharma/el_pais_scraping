@@ -23,6 +23,10 @@ public class Main {
         logger.info("Starting Step: 1. Visit the website El País, a Spanish news outlet");
         OpinionScraper opinionScraper = new OpinionScraper(driver);
         opinionScraper.openElPaisWebsite();
+        if (!"ESPAÑA".equals(opinionScraper.getSelectedLanguage())){
+            logger.error("Selected language is not Spanish");
+            return;
+        }
         logger.info("Completed Step: 1");
 
         logger.info("Starting Step: 2. Scrape Articles from the Opinion Section");

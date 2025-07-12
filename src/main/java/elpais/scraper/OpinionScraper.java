@@ -36,6 +36,12 @@ public class OpinionScraper {
         driver.get(EL_PAIS_URL);
     }
 
+    public String getSelectedLanguage() {
+        By locator = By.xpath("//header//div/ul/li[1]");
+        WebElement selectedLaguage = wait.until(ExpectedConditions.elementToBeClickable(locator));
+        return selectedLaguage.getText();
+    }
+
     public void acceptCookies() {
         By locator = By.id("didomi-notice-agree-button");
         WebElement cookieButton = wait.until(ExpectedConditions.elementToBeClickable(locator));
