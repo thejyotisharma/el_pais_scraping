@@ -3,6 +3,7 @@ package elpais;
 import elpais.scraper.Article;
 import elpais.scraper.OpinionScraper;
 import elpais.scraper.WebDriverConfig;
+import elpais.translator.SpanishTranslator;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,19 @@ public class Main {
             opinionScraper.downloadImage(article, articleNumber);
         }
         logger.info("Completed Step: 2");
+
+        logger.info("Starting Step: 3. Translate Article Headers");
+        List<String> spanishHeaders = new ArrayList<>();
+        for (Article article : topFiveArticles) {
+            spanishHeaders.add(article.getTitle());
+        }
+        SpanishTranslator translator = new SpanishTranslator();
+        List<String> englishHeaders = translator.toEnglish(spanishHeaders);
+        logger.info("Translated headers are:");
+        for (String header : englishHeaders) {
+            logger.info(header);
+        }
+        logger.info("Completed Step: 3");
 
         driver.quit();
     }
