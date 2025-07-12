@@ -6,6 +6,8 @@ import elpais.scraper.OpinionScraper;
 import elpais.scraper.WebDriverConfig;
 import elpais.translator.SpanishTranslator;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,29 +21,15 @@ public class ElPaisTest {
     private WebDriver driver;
 
     @BeforeMethod(alwaysRun = true)
-    @Parameters({"browser", "browser_version", "os", "os_version", "device", "real_mobile"})
-    public void setUp(@Optional("chrome") String browser,
-                      @Optional("latest") String browserVersion,
-                      @Optional("Windows") String os,
-                      @Optional("11") String osVersion,
-                      @Optional("") String device,
-                      @Optional("false") String realMobile) throws Exception {
-
-        Map<String, String> params = new HashMap<>();
-
-        if (device != null && !device.isEmpty()) {
-            params.put("device", device);
-            params.put("os_version", osVersion);
-            params.put("real_mobile", realMobile);
-            params.put("browserName", browser);
-        } else {
-            params.put("browser", browser);
-            params.put("browser_version", browserVersion);
-            params.put("os", os);
-            params.put("os_version", osVersion);
+    public void setUp() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("start-maximized");
+        driver = new ChromeDriver(options);
+        try {
+            driver.manage().window().maximize();
+        } catch (Exception e) {
+            logger.warn("Unable to maximize browser");
         }
-
-        driver = WebDriverConfig.getDriver(params);
     }
 
     @Test
