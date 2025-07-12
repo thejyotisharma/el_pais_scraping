@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +91,7 @@ public class OpinionScraper {
         }
 
         try (InputStream stream = new URL(article.getImageUrl()).openStream()) {
-            Files.copy(stream, Paths.get(fileName+".jpg"));
+            Files.copy(stream, Paths.get(fileName+".jpg"), StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
