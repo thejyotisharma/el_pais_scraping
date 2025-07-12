@@ -3,7 +3,6 @@ package elpais.tests;
 import elpais.analyzer.FrequentWordCounter;
 import elpais.scraper.Article;
 import elpais.scraper.OpinionScraper;
-import elpais.scraper.WebDriverConfig;
 import elpais.translator.SpanishTranslator;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
