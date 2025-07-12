@@ -9,6 +9,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,18 +30,18 @@ public class OpinionScraper {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
-    public void openElPaisWebsite(){
+    public void openElPaisWebsite() {
         logger.info("Opening https://elpais.com/");
         driver.get(EL_PAIS_URL);
     }
 
-    public void acceptCookies(){
+    public void acceptCookies() {
         By locator = By.id("didomi-notice-agree-button");
         WebElement cookieButton = wait.until(ExpectedConditions.elementToBeClickable(locator));
         cookieButton.click();
     }
 
-    public void visitOpinionPage(){
+    public void visitOpinionPage() {
         By locator = By.linkText("Opinión");
         WebElement OpinionButton = wait.until(ExpectedConditions.elementToBeClickable(locator));
         OpinionButton.click();
@@ -71,9 +76,23 @@ public class OpinionScraper {
         article.setContent(pageContent.getText());
 
         By image = By.xpath("//article/header//span//img");
-        WebElement imageLink = wait.until(ExpectedConditions.elementToBeClickable(image));
-        article.setImageUrl(imageLink.getAttribute("src"));
+        WebElement coverImage = wait.until(ExpectedConditions.presenceOfElementLocated(image));
+        if (coverImage.isDisplayed()) {
+            article.setImageUrl(coverImage.getAttribute("src"));
+        }
 
         return article;
+    }
+
+    public void downloadImage(Article article, String fileName) {
+        if (article.getImageUrl() == null) {
+            return;
+        }
+
+        try (InputStream stream = new URL(article.getImageUrl()).openStream()) {
+            Files.copy(stream, Paths.get(fileName+".jpg"));
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 }

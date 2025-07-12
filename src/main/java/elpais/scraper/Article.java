@@ -29,4 +29,9 @@ public class Article {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public String getTextToPrint(){
+        String text = "Title :" + title + ", " + "Content :" + content;
+        return text;
+    }
 }
