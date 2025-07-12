@@ -74,11 +74,11 @@ public class OpinionScraper {
         driver.get(link);
 
         By title = By.xpath("//article/header/div[1]");
-        WebElement pageTitle = wait.until(ExpectedConditions.elementToBeClickable(title));
+        WebElement pageTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(title));
         article.setTitle(pageTitle.getText());
 
         By content = By.xpath("//article/div[2]");
-        WebElement pageContent = wait.until(ExpectedConditions.elementToBeClickable(content));
+        WebElement pageContent = wait.until(ExpectedConditions.visibilityOfElementLocated(content));
         article.setContent(pageContent.getText());
 
         By image = By.xpath("//article/header//span//img");
