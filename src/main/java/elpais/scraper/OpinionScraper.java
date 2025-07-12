@@ -28,7 +28,7 @@ public class OpinionScraper {
 
     public OpinionScraper(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public void openElPaisWebsite() {
@@ -67,10 +67,9 @@ public class OpinionScraper {
         Article article = new Article();
         driver.get(link);
 
-        By title = By.xpath("//article//h1");
+        By title = By.xpath("//article/header/div[1]");
         WebElement pageTitle = wait.until(ExpectedConditions.elementToBeClickable(title));
         article.setTitle(pageTitle.getText());
-
 
         By content = By.xpath("//article/div[2]");
         WebElement pageContent = wait.until(ExpectedConditions.elementToBeClickable(content));

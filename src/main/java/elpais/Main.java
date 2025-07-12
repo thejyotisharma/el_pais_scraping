@@ -1,5 +1,6 @@
 package elpais;
 
+import elpais.analyzer.FrequentWordCounter;
 import elpais.scraper.Article;
 import elpais.scraper.OpinionScraper;
 import elpais.scraper.WebDriverConfig;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
 
@@ -30,6 +32,7 @@ public class Main {
         List<Article> topFiveArticles = new ArrayList<>();
         logger.info("Printing top 5 articles");
         for (int i = 0; i < 5; i++) {
+            logger.info("Doing -> "+allArticleLinks.get(i));
             Article article = opinionScraper.scrapeArticleData(allArticleLinks.get(i));
             topFiveArticles.add(article);
 
@@ -51,6 +54,12 @@ public class Main {
             logger.info(header);
         }
         logger.info("Completed Step: 3");
+
+        logger.info("Starting Step: 4. Analyze Translated Headers");
+        FrequentWordCounter wordsCounter = new FrequentWordCounter();
+        Map<String, Integer> repeatingWords = wordsCounter.getWordsRepeatingMoreThanTwice(englishHeaders);
+        logger.info("Repeating words are {}",repeatingWords);
+        logger.info("Completed Step: 4");
 
         driver.quit();
     }
