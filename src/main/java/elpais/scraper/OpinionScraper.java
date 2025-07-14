@@ -79,9 +79,11 @@ public class OpinionScraper {
         Article article = new Article();
         driver.get(link);
 
-        By title = By.xpath("//article/header/div[1]");
+        By title = By.xpath("//article/header//h1");
+        By subTitle = By.xpath("//article/header//h2");
         WebElement pageTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(title));
-        article.setTitle(pageTitle.getText());
+        WebElement pageSubTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(subTitle));
+        article.setTitle(pageTitle.getText() + " " + pageSubTitle.getText());
 
         By content = By.xpath("//article/div[2]");
         WebElement pageContent = wait.until(ExpectedConditions.visibilityOfElementLocated(content));

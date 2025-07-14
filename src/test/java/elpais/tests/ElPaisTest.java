@@ -7,10 +7,10 @@ import elpais.translator.SpanishTranslator;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.Assert;
 import org.testng.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.Optional;
 
 import java.util.*;
 
@@ -38,7 +38,7 @@ public class ElPaisTest {
         scraper.openElPaisWebsite();
         scraper.acceptCookies();
         scraper.clickHamburgerButton();
-        assert "ESPAÑA".equals(scraper.getSelectedLanguage()) : "Language is not Spanish";
+        Assert.assertEquals("ESPAÑA", scraper.getSelectedLanguage());
         scraper.clickHamburgerCloseButton();
 
         logger.info("Step 2: Scrape Opinion Articles");
@@ -46,10 +46,13 @@ public class ElPaisTest {
         List<String> links = scraper.getAllArticleLinksOnPage();
 
         List<Article> articles = new ArrayList<>();
-        for (int i = 0; i < Math.min(5, links.size()); i++) {
+        for (int i = 0; i < 5; i++) {
             Article article = scraper.scrapeArticleData(links.get(i));
             articles.add(article);
-            scraper.downloadImage(article, "Article " + (i + 1));
+
+            String articleNumber = "Article " + (i + 1);
+            scraper.downloadImage(article, articleNumber);
+            logger.info(articleNumber + " : " + article.getTextToPrint());
         }
 
         logger.info("Step 3: Translate Headers");
@@ -59,6 +62,10 @@ public class ElPaisTest {
             headers.add(a.getTitle());
         }
         List<String> translated = translator.toEnglish(headers);
+        logger.info("Translated Headers are: ");
+        for (String header : translated) {
+            logger.info(header);
+        }
 
         logger.info("Step 4: Analyze Translations");
         FrequentWordCounter counter = new FrequentWordCounter();
